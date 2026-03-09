@@ -1,5 +1,14 @@
 terraform {
   required_version = ">= 1.5.0"
+
+  backend "s3" {
+    bucket  = "hms_portifolio_infra"       # O nome exato do seu bucket
+    key     = "infra/terraform.tfstate"    # O caminho/pasta onde o estado será salvo dentro do bucket
+    region  = "us-east-1"                  # A região onde o bucket foi criado
+    encrypt = true
+    # dynamodb_table = "NOME_DA_SUA_TABELA" 
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -18,3 +27,4 @@ provider "aws" {
     }
   }
 }
+
