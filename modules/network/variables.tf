@@ -1,4 +1,4 @@
-variable "project_name" {}
-variable "environment" {}
-variable "vpcs" {}
-variable "subnets" {}
+variable "environment" {
+  description = "Ambiente (ex: dev, prod)"
+  type        = string
+}
