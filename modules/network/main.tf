@@ -2,7 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags = { Name = "hms-vpc-${var.environment}" }
+  tags                 = { Name = "hms-vpc-${var.environment}" }
 }
 
 resource "aws_subnet" "public" {
@@ -10,12 +10,12 @@ resource "aws_subnet" "public" {
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true # Essencial para o ECS baixar as imagens da internet
-  tags = { Name = "hms-public-subnet-${var.environment}" }
+  tags                    = { Name = "hms-public-subnet-${var.environment}" }
 }
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
-  tags = { Name = "hms-igw-${var.environment}" }
+  tags   = { Name = "hms-igw-${var.environment}" }
 }
 
 resource "aws_route_table" "public_rt" {

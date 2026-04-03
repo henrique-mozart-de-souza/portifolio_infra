@@ -18,7 +18,7 @@ module "compute" {
   security_group       = module.security.web_sg_id
   iam_instance_profile = module.security.ecs_instance_profile_name # <-- A nova linha!
   environment          = terraform.workspace
-  cluster_name         = module.ecs.cluster_name 
+  cluster_name         = module.ecs.cluster_name
 }
 
 # 4. Camada de Orquestração (O "Cérebro")
