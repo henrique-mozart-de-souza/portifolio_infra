@@ -1,4 +1,4 @@
-output "instance_ips" {
-  description = "IPs Públicos das instâncias criadas"
-  value       = module.compute.instance_ips
+output "portfolio_url" {
+  value       = "http://${module.compute.public_ip}"
+  description = "Acesse seu portfólio neste endereço"
 }

@@ -1,5 +1,5 @@
-variable "project_name" {}
 variable "environment" {}
-variable "subnet_ids" {}
-variable "sg_ids" {}
-variable "instances" {}
+variable "subnet_id" {}
+variable "security_group" {}
+variable "cluster_name" {}
+variable "iam_instance_profile" {}

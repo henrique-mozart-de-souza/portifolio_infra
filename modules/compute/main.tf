@@ -1,6 +1,7 @@
+# Busca a imagem do Ubuntu 22.04 dinamicamente
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["099720109477"]
+  owners      = ["099720109477"] # Canonical (Ubuntu Oficial)
 
   filter {
     name   = "name"
@@ -8,20 +9,21 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-resource "aws_instance" "this" {
-  for_each               = var.instances
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = each.value.instance_type
-  subnet_id              = var.subnet_ids[each.value.subnet_key]
-  
-  vpc_security_group_ids = [for sg_key in each.value.sg_keys : var.sg_ids[sg_key]]
-  
-  user_data              = file("${path.root}/scripts/setup_ec2.sh")
+resource "aws_instance" "app_server" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro" # Free tier
 
-  root_block_device {
-    volume_size = each.value.volume_size
-    volume_type = "gp3"
+  subnet_id                   = var.subnet_id
+  vpc_security_group_ids      = [var.security_group]
+  iam_instance_profile        = var.iam_instance_profile # Crachá do módulo security
+  associate_public_ip_address = true
+
+  # A MÁGICA ACONTECE AQUI: Injeta o nome do cluster no script bash
+  user_data = templatefile("${path.root}/scripts/ecs_agent_setup.sh", {
+    cluster_name = var.cluster_name
+  })
+
+  tags = {
+    Name = "hms-ecs-capacity-provider-${var.environment}"
   }
-
-  tags = { Name = "${var.project_name}-${var.environment}-ec2-${each.key}" }
 }

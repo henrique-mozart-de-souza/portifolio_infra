@@ -1,6 +1,2 @@
-output "vpc_ids" {
-  value = { for k, v in aws_vpc.this : k => v.id }
-}
-output "subnet_ids" {
-  value = { for k, v in aws_subnet.this : k => v.id }
-}
+output "vpc_id" { value = aws_vpc.main.id }
+output "public_subnet_id" { value = aws_subnet.public.id }

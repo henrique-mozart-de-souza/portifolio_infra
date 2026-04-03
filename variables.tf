@@ -35,3 +35,19 @@ variable "instances" {
     volume_size   = number
   }))
 }
+
+variable "aws_region" {
+  default = "us-east-1"
+}
+
+variable "aws_account_id" {
+  default = "365916940374"
+}
+
+variable "project_name" {
+  default = "hms-cloud"
+}
+
+variable "ecr_repo_name" {
+  default = "meu-portfolio"
+}

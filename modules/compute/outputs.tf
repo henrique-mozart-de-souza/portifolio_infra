@@ -1,3 +1,1 @@
-output "instance_ips" {
-  value = { for k, v in aws_instance.this : k => v.public_ip }
-}
+output "public_ip" { value = aws_instance.app_server.public_ip }
