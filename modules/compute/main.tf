@@ -1,29 +1,28 @@
-# Busca a imagem do Ubuntu 22.04 dinamicamente
-data "aws_ami" "ubuntu" {
+# Busca a imagem oficial da AWS otimizada para o ECS
+data "aws_ami" "ecs_ami" {
   most_recent = true
-  owners      = ["099720109477"] # Canonical (Ubuntu Oficial)
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+    values = ["amzn2-ami-ecs-hvm-*-x86_64-ebs"]
   }
 }
 
 resource "aws_instance" "app_server" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro" # Free tier
+  ami                    = data.aws_ami.ecs_ami.id
+  instance_type          = "t2.micro"
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = [var.security_group]
+  iam_instance_profile   = var.iam_instance_profile
 
-  subnet_id                   = var.subnet_id
-  vpc_security_group_ids      = [var.security_group]
-  iam_instance_profile        = var.iam_instance_profile # Crachá do módulo security
-  associate_public_ip_address = true
-
-  # A MÁGICA ACONTECE AQUI: Injeta o nome do cluster no script bash
-  user_data = templatefile("${path.root}/scripts/ecs_agent_setup.sh", {
-    cluster_name = var.cluster_name
-  })
+  # Esse script roda quando a máquina liga e registra ela no Cluster correto
+  user_data = <<-EOF
+              #!/bin/bash
+              echo ECS_CLUSTER=${var.cluster_name} >> /etc/ecs/ecs.config
+              EOF
 
   tags = {
-    Name = "hms-ecs-capacity-provider-${var.environment}"
+    Name = "hms-ecs-instance-${var.environment}"
   }
 }

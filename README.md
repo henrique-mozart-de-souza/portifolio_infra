@@ -4,6 +4,9 @@ Este repositório é responsável pelo provisionamento e gerenciamento de toda a
 
 A filosofia central deste projeto é o **Desacoplamento Total**: a infraestrutura (redes, segurança e orquestração) possui um ciclo de vida completamente independente da aplicação (código e imagens Docker). Isso garante maior resiliência, segurança e facilidade de manutenção.
 
+
+![alt text](image-1.png)
+
 ---
 
 ## 🎯 Objetivos e Filosofia
