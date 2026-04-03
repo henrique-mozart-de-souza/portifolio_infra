@@ -11,7 +11,7 @@ data "aws_ami" "ecs_ami" {
 
 resource "aws_instance" "app_server" {
   ami                    = data.aws_ami.ecs_ami.id
-  instance_type          = "t2.micro"
+  instance_type          = "t3.micro"
   subnet_id              = var.subnet_id
   vpc_security_group_ids = [var.security_group]
   iam_instance_profile   = var.iam_instance_profile
