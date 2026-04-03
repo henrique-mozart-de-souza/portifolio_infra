@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 # 1. Camada de Rede
 module "network" {
   source      = "./modules/network"
