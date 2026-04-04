@@ -5,7 +5,7 @@ Este repositório é responsável pelo provisionamento e gerenciamento de toda a
 A filosofia central deste projeto é o **Desacoplamento Total**: a infraestrutura (redes, segurança e orquestração) possui um ciclo de vida completamente independente da aplicação (código e imagens Docker). Isso garante maior resiliência, segurança e facilidade de manutenção.
 
 
-![alt text](image-1.png)
+![alt text](image.png)
 
 ---
 
@@ -41,6 +41,9 @@ A topologia provisiona um ambiente robusto preparado para orquestração de cont
    - **Task Definition:** A planta arquitetônica informando ao ECS para utilizar a imagem mais recente do ECR, alocando recursos específicos de CPU e RAM.
    - **ECS Service:** O "gerente" que garante que a aplicação estará sempre rodando e reiniciará o container automaticamente em caso de falhas.
 
+5. **Camada de Computação (Edge):**
+   - Não aplicada pois gera custos, mas seria o next step da infra  
+
 ---
 
 ## 📂 Estrutura do Repositório
@@ -64,7 +67,7 @@ portifolio_infra/
     ├── network/
     ├── security/
     ├── compute/     <-- Provisiona a EC2 (Capacity Provider)
-    └── ecs/         <-- NOVO: Provisiona Cluster, Task Definition e Service
+    └── ecs/         <-- Provisiona Cluster, Task Definition e Service
 ```
 
 ---
@@ -129,6 +132,12 @@ terraform apply -var-file="environments/dev.tfvars"
 ```bash
 terraform destroy -var-file="environments/dev.tfvars"
 ```
+
+## No repositorio abaixo existe esse fluxo criado em Pipeline ##
+
+
+https://github.com/henrique-mozart-de-souza/portifolio_CI_CD
+
 
 Desenvolvido com automação extrema por Henrique Mozart de Souza.
 
